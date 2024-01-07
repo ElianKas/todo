@@ -1,15 +1,15 @@
 <script setup>
-//bei klick auf den Text soll sich in ein Inputfeld öffnen indem der Text dargestellt und bearbeitbar wird
-//bei klick auf den Text soll sich der Text bearbeiten lassen indem er zum Input feld wird
-
-//der Wert des Listeneintrags muss in einer Funktion gespeichert werden um dann den <li> eintrag in ein input feld umzuwandeln mithilfe von event.target
+//wenn event.target != input feld, dann submitChange()
 import gsap from 'gsap';
 
 const props = defineProps(['eintrag']);
 const emit = defineEmits(['pressedX']);
+const target = ref(null);
+
 let counter = ref(0);
 let isClicked = ref(false);
 
+onClickOutside(target, submitChange);
 function handleClick(event) {
   if (counter.value == 0) {
     counter.value = 1;
@@ -31,7 +31,7 @@ function submitChange() {
 }
 </script>
 <template>
-  <div class="eintrag">
+  <div class="eintrag" ref="target">
     <li @click="handleClickText" v-if="!isClicked">{{ eintrag.text }}</li>
     <input v-if="isClicked" @keyup.enter="submitChange" type="text" v-model="eintrag.text" />
     <span @click="handleClick">╳</span>
