@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1>Home - branch: experimental</h1>
+    <h1>Home</h1>
     <List />
   </main>
 </template>
