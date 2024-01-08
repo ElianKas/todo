@@ -1,5 +1,5 @@
 <script setup>
-//wenn event.target != input feld, dann submitChange()
+//wenn input-field sichtbar, dann x button verschwindet
 import gsap from 'gsap';
 
 const props = defineProps(['eintrag']);
@@ -34,7 +34,7 @@ function submitChange() {
   <div class="eintrag" ref="target">
     <li @click="handleClickText" v-if="!isClicked">{{ eintrag.text }}</li>
     <input v-if="isClicked" @keyup.enter="submitChange" type="text" v-model="eintrag.text" />
-    <span @click="handleClick">╳</span>
+    <span v-if="!isClicked" @click="handleClick">╳</span>
   </div>
 </template>
 <style scoped>
