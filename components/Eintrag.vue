@@ -1,5 +1,5 @@
 <script setup>
-//wenn input-field sichtbar, dann x button verschwindet
+//wenn klick auf icon, dann draggable
 import gsap from 'gsap';
 
 const props = defineProps(['eintrag']);
