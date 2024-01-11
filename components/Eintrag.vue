@@ -1,5 +1,4 @@
 <script setup>
-//wenn klick auf icon, dann draggable
 import gsap from 'gsap';
 
 const props = defineProps(['eintrag']);
@@ -28,6 +27,7 @@ function handleClickText() {
 }
 function submitChange() {
   isClicked.value = false;
+  counter.value = 0;
 }
 </script>
 <template>

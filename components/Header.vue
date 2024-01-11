@@ -20,9 +20,9 @@ p {
 }
 </style>
 <script setup>
-import { useNewTodoStore, useNewInputStore } from '~/stores/toggle';
+import { useNewTodoStore } from '~/stores/toggle';
 const store = useNewTodoStore();
-const input = useNewInputStore();
+
 function toggleNew() {
   if (store.isNew == false) {
     store.isNew = true;
