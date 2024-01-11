@@ -1,4 +1,9 @@
 <script setup>
+import { useNewTodoStore } from '~/stores/toggle';
+
+const newTodo = useNewTodoStore();
+const newInput = ref();
+
 let newEntry = ref('');
 let list = ref([
   { id: 0, text: 'Eintrag 1' },
@@ -6,6 +11,10 @@ let list = ref([
   { id: 2, text: 'Eintrag 3' },
 ]);
 
+onClickOutside(newInput, () => {
+  newTodo.isNew = false;
+  newEntry.value = '';
+});
 function submitToList() {
   let currentId = list.value.length + 1;
   list.value.push({ id: currentId, text: newEntry.value });
@@ -21,7 +30,15 @@ function deleteEntry(currentID) {
   <ul>
     <Eintrag v-for="eintrag in list" :key="eintrag.id" :eintrag="eintrag" @pressed-x="deleteEntry" />
   </ul>
-  <input @keyup.enter="submitToList" v-model="newEntry" type="text" placeholder="Neuer Eintrag" />
+  <input
+    autofocus
+    ref="newInput"
+    v-if="newTodo.isNew"
+    @keyup.enter="submitToList"
+    v-model="newEntry"
+    type="text"
+    placeholder="Neuer Eintrag"
+  />
 </template>
 <style scoped>
 ul {
