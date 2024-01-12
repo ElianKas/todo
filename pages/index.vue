@@ -5,6 +5,6 @@
 </template>
 <style scoped>
 main {
-  padding: 0 8rem;
+  padding: 0 5rem;
 }
 </style>

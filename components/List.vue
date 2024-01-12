@@ -5,20 +5,30 @@ const newTodo = useNewTodoStore();
 const newInput = ref();
 
 let newEntry = ref('');
-let list = ref([
-  { id: 0, text: 'Eintrag 1' },
-  { id: 1, text: 'Eintrag 2' },
-  { id: 2, text: 'Eintrag 3' },
-]);
+let newDate = ref(new Date());
+let list = ref([]);
 
 onClickOutside(newInput, () => {
   newTodo.isNew = false;
   newEntry.value = '';
+  newDate.value = new Date();
 });
 function submitToList() {
-  let currentId = list.value.length + 1;
-  list.value.push({ id: currentId, text: newEntry.value });
-  newEntry.value = '';
+  if (newEntry.value != '') {
+    const year = newDate.value.getFullYear();
+    const month = newDate.value.getMonth() + 1;
+    const date = newDate.value.getDate();
+    const deadline = date + '.' + month + '.' + year;
+
+    let currentId = list.value.length + 1;
+
+    list.value.push({ id: currentId, text: newEntry.value, date: deadline });
+
+    newEntry.value = '';
+    newDate.value = new Date();
+  } else {
+    document.getElementById('input1').focus();
+  }
 }
 function deleteEntry(currentID) {
   list.value = list.value.filter((el) => {
@@ -27,18 +37,26 @@ function deleteEntry(currentID) {
 }
 </script>
 <template>
-  <ul>
-    <Eintrag v-for="eintrag in list" :key="eintrag.id" :eintrag="eintrag" @pressed-x="deleteEntry" />
-  </ul>
-  <input
-    autofocus
-    ref="newInput"
-    v-if="newTodo.isNew"
-    @keyup.enter="submitToList"
-    v-model="newEntry"
-    type="text"
-    placeholder="Neuer Eintrag"
-  />
+  <main>
+    <ul>
+      <Eintrag v-for="eintrag in list" :key="eintrag.id" :eintrag="eintrag" @pressed-x="deleteEntry" />
+    </ul>
+    <div class="newTodoContainer" v-if="newTodo.isNew" ref="newInput">
+      <input
+        id="input1"
+        autofocus
+        v-model="newEntry"
+        @keyup.enter="submitToList"
+        type="text"
+        placeholder="Neuer Eintrag"
+      />
+      <client-only>
+        <VDatePicker class="datePicker" title-position="right" v-model="newDate" view="weekly">
+          <template #footer> <button @click="submitToList">hinzufügen</button> </template>
+        </VDatePicker>
+      </client-only>
+    </div>
+  </main>
 </template>
 <style scoped>
 ul {
@@ -47,5 +65,25 @@ ul {
   gap: 1rem;
   list-style-type: none;
   margin: 2rem 0;
+}
+.newTodoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.newTodoContainer input {
+  width: 15rem;
+}
+.datePicker {
+  color: white;
+}
+.datePicker button {
+  background-color: rgb(20, 20, 20);
+  padding: 1rem 3rem;
+  border: none;
+  color: white;
+  border-radius: 2rem;
+  cursor: pointer;
 }
 </style>

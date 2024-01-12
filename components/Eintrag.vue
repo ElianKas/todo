@@ -13,7 +13,7 @@ function handleClick(event) {
   if (counter.value == 0) {
     counter.value = 1;
     gsap.to(event.target.previousElementSibling, {
-      textDecorationLine: 'line-through',
+      opacity: 0.3,
     });
     return;
   } else if (counter.value == 1) {
@@ -32,7 +32,11 @@ function submitChange() {
 </script>
 <template>
   <div class="eintrag" ref="target">
-    <li @click="handleClickText" v-if="!isClicked">{{ eintrag.text }}</li>
+    <li @click="handleClickText" v-if="!isClicked">
+      {{ eintrag.text }}
+      <br />
+      bis zum <b>{{ eintrag.date }}</b>
+    </li>
     <input v-if="isClicked" @keyup.enter="submitChange" type="text" v-model="eintrag.text" />
     <span v-if="!isClicked" @click="handleClick">╳</span>
   </div>
