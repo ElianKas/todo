@@ -35,7 +35,7 @@ function submitChange() {
     <li @click="handleClickText" v-if="!isClicked">
       {{ eintrag.text }}
       <br />
-      bis zum <b>{{ eintrag.date }}</b>
+      bis <b>{{ eintrag.date }}</b>
     </li>
     <input v-if="isClicked" @keyup.enter="submitChange" type="text" v-model="eintrag.text" />
     <span v-if="!isClicked" @click="handleClick">╳</span>
